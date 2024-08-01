@@ -1,0 +1,29 @@
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <%- include('./partials/nav.ejs') %>
+        <div class="customers content">
+            <form action="/customers" method="POST">
+                <b>Customers: </b></br> 
+            <% if (theCustomers.length > 0) { %>
+                <% theCustomers.forEach(actor => { %>
+                    <b><%= customer.first_name %> <%= customer.last_name %></b>
+                    <a href="/customers/<%=customer._id%>/edit?firstName=<%=actor.first_name%>&lastName=<%=actor.last_name%>">edit</a>
+                    <a href="/customers/<%=customer._id%>/delete?firstName=<%=actor.first_name%>&lastName=<%=actor.last_name%>">delete</a>
+                    <a href="/customers/<%=actor._id%>/replace?firstName=<%=actor.first_name%>&lastName=<%=actor.last_name%>">replace</a></br> 
+                    <% }) %>
+            <% } %>
+            </br><label>Add Customer:</label></br>
+            <label>First Name:
+                <input type="text" id="firstName" name="firstName" value="<%= locals.firstName %>" required>
+            </label>
+            <label>Last Name:
+                <input type="text" id="lastName" name="lastName" value="<%= locals.lastName %>" required>
+            </label>
+            </br>
+            <button>POST</button>
+        </form>
+        </div>
+    </body>
+    <%- include('./partials/foot.ejs') %>
+</html>
