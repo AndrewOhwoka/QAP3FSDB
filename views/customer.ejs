@@ -1,0 +1,15 @@
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <%- include('./partials/nav.ejs') %>
+        <div class="customer content">
+            <h2>Actor:</h2>
+            <% if (anCustomer.length > 0) 
+                var customer = anCustomer[0];{ %>
+                <h3><%= customer.first_name %> <%= customer.last_name %>
+                </h3> 
+            <% } %>
+        </div>
+    </body>
+    <%- include('./partials/foot.ejs') %>
+</html>
