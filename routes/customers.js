@@ -1,33 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const actorsDal = require('../services/pg.actors.dal')
-// const actorsDal = require('../services/m.actors.dal')
+const customersDal = require('../services/pg.customers.dal')
+// const customersDal = require('../services/m.customers.dal')
 
-// https://localhost:3000/actors/
+// https://localhost:3000/customers/
 router.get('/', async (req, res) => {
-    // const theActors = [
+    // const theCustomers = [
     //     {first_name: 'Youn', last_name: 'Yuh-jung'},
     //     {first_name: 'Laura', last_name: 'Dern'},
     //     {first_name: 'Regina', last_name: 'King'}
     // ];
     try {
-        let theActors = await actorsDal.getActors(); 
-        if(DEBUG) console.table(theActors);
-        res.render('actors', {theActors});
+        let theCustomers = await customersDal.getCustomers(); 
+        if(DEBUG) console.table(theCustomers);
+        res.render('customers', {theCustomers});
     } catch {
         res.render('503');
     }
 });
 
 router.get('/:id', async (req, res) => {
-    // const anActor = [
+    // const anCustomer = [
     //     {first_name: 'Regina', last_name: 'King'}
     // ];
     try {
-        const anActor = await actorsDal.getActorByActorId(req.params.id); // from postgresql
-        if(DEBUG) console.log(`actors.router.get/:id ${anActor}`);
-        if (anActor)
-            res.render('actor', {anActor});
+        const anCustomer = await customersDal.getCustomerByCustomerId(req.params.id); // from postgresql
+        if(DEBUG) console.log(`customers.router.get/:id ${anCustomer}`);
+        if (anCustomer)
+            res.render('customer', {anCustomer});
         else
             res.render('norecord');
     } catch {
@@ -36,26 +36,26 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/:id/replace', async (req, res) => {
-    if(DEBUG) console.log('actor.Replace : ' + req.params.id);
-    res.render('actorPut.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
+    if(DEBUG) console.log('customer.Replace : ' + req.params.id);
+    res.render('customerPut.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
 });
 
-// https://localhost:3000/actors/205/edit
+// https://localhost:3000/customers/205/edit
 router.get('/:id/edit', async (req, res) => {
-    if(DEBUG) console.log('actor.Edit : ' + req.params.id);
-    res.render('actorPatch.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
+    if(DEBUG) console.log('customer.Edit : ' + req.params.id);
+    res.render('customerPatch.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
 });
 
 router.get('/:id/delete', async (req, res) => {
-    if(DEBUG) console.log('actor.Delete : ' + req.params.id);
-    res.render('actorDelete.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
+    if(DEBUG) console.log('customer.Delete : ' + req.params.id);
+    res.render('customerDelete.ejs', {firstName: req.query.firstName, lastName: req.query.lastName, theId: req.params.id});
 });
 
 router.post('/', async (req, res) => {
-    if(DEBUG) console.log("actors.POST");
+    if(DEBUG) console.log("customers.POST");
     try {
-        await actorsDal.addActor(req.body.firstName, req.body.lastName );
-        res.redirect('/actors/');
+        await customersDal.addCustomer(req.body.firstName, req.body.lastName );
+        res.redirect('/customers/');
     } catch {
         // log this error to an error log file.
         res.render('503');
@@ -66,30 +66,30 @@ router.post('/', async (req, res) => {
 // Therefore, <form method="PUT" ...> doesn't work, but it does work for RESTful API
 
 router.put('/:id', async (req, res) => {
-    if(DEBUG) console.log('actors.PUT: ' + req.params.id);
+    if(DEBUG) console.log('customers.PUT: ' + req.params.id);
     try {
-        await actorsDal.putActor(req.params.id, req.body.firstName, req.body.lastName);
-        res.redirect('/actors/');
+        await customersDal.putCustomer(req.params.id, req.body.firstName, req.body.lastName);
+        res.redirect('/customers/');
     } catch {
         // log this error to an error log file.
         res.render('503');
     }
 });
 router.patch('/:id', async (req, res) => {
-    if(DEBUG) console.log('actors.PATCH: ' + req.params.id);
+    if(DEBUG) console.log('customers.PATCH: ' + req.params.id);
     try {
-        await actorsDal.patchActor(req.params.id, req.body.firstName, req.body.lastName);
-        res.redirect('/actors/');
+        await customersDal.patchCustomer(req.params.id, req.body.firstName, req.body.lastName);
+        res.redirect('/customers/');
     } catch {
         // log this error to an error log file.
         res.render('503');
     }
 });
 router.delete('/:id', async (req, res) => {
-    if(DEBUG) console.log('actors.DELETE: ' + req.params.id);
+    if(DEBUG) console.log('customers.DELETE: ' + req.params.id);
     try {
-        await actorsDal.deleteActor(req.params.id);
-        res.redirect('/actors/');
+        await customersDal.deleteCustomer(req.params.id);
+        res.redirect('/customers/');
     } catch (err) {
         if(DEBUG) console.error(err);
         // log this error to an error log file.

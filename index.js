@@ -16,18 +16,19 @@ app.get("/about", (request, response) => {
   response.render("about.ejs");
 });
 
-const actorsRouter = require("./routes/actors");
-app.use("/actors", actorsRouter);
+const customersRouter = require("./routes/customers");
+app.use("/customers", customersRouter);
 
-const loginsRouter = require("./routes/logins");
-app.use("/logins", loginsRouter);
+//no login and users routes
+// const loginsRouter = require("./routes/logins");
+// app.use("/logins", loginsRouter);
 
-const usersRouter = require("./routes/users");
-app.use("/users", usersRouter);
+// const usersRouter = require("./routes/users");
+// app.use("/users", usersRouter);
 
 // anything beginning with "/api" will go into this
-const apiRouter = require("./routes/api");
-app.use("/api", apiRouter);
+// const apiRouter = require("./routes/api");
+// app.use("/api", apiRouter);
 
 app.use((req, res) => {
   res.status(404).render("404");
